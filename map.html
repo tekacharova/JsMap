@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Custom Map with Marker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      function initMap() { 
+        var address = 'Eiffestraße 664B, 20537 Hamburg'; 
+  
+        var map = new google.maps.Map(document.getElementById('map'), { 
+            mapTypeId: google.maps.MapTypeId.TERRAIN, 
+            mapTypeControl: false, 
+            zoom: 16 
+        }); 
+  
+        var geocoder = new google.maps.Geocoder(); 
+        var image = { 
+            url: "/ResourcePackages/l2sol/assets/dist/img/google-maps-icon.png", 
+            scaledSize: new google.maps.Size(30, 50), 
+            origin: new google.maps.Point(0, 0), 
+            anchor: new google.maps.Point(0, 50) 
+        }; 
+  
+        geocoder.geocode({ 
+            'address': address 
+        }, 
+  
+        function (results, status) { 
+            if (status == google.maps.GeocoderStatus.OK) { 
+                new google.maps.Marker({ 
+                    position: results[0].geometry.location, 
+                    map: map, 
+                    icon: image 
+                }); 
+              map.setCenter(results[0].geometry.location); 
+            } 
+        }); 
+  
+        // Append card when map renders 
+        google.maps.event.addListener(map, 'idle', function (e) { 
+            if ($(".place-card").length === 0) { 
+                $(".gm-style").append('<div style="position: absolute; left: 0px; top: 0px;"><div style="background-color: white; margin: 10px; padding: 1px; box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px; border-radius: 2px;"><div jstcache="0"><div jstcache="119" class="place-card place-card-large">  <div class="place-desc-large"> <div jstcache="36" class="place-name" jsan="7.place-name">Eiffestraße 664B</div> <div jstcache="37" class="address" jsan="7.address">Eiffestraße 664B, 20537 Hamburg</div> </div> <div jstcache="38" class="navigate"> <div jsaction="placeCard.directions" class="navigate"> <a target="_blank" jstcache="53" href="https://www.google.de/maps/dir//Eiffestra%C3%9Fe+664B,+20537+Hamburg/@53.5496536,10.064009,17z/data=!4m16!1m7!3m6!1s0x47b18c219cb1930d:0xd965f5485ef2613!2sEiffestra%C3%9Fe+664B,+20537+Hamburg!3b1!8m2!3d53.5496536!4d10.0661977!4m7!1m0!1m5!1m1!1s0x47b18c219cb1930d:0xd965f5485ef2613!2m2!1d10.0661977!2d53.5496536?hl=de" class="navigate-link"> <div class="icon navigate-icon"></div> <div class="navigate-text">Navigate</div> </a> </div>  </div>      </div></div></div></div>'); 
+            } 
+        }); 
+    }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3vmjpJR9aowYTH9-a_1sdEeFkwPiJoak&callback=initMap">
+    </script>
+  </body>
+</html>
